@@ -14,7 +14,7 @@ app.post('/roommate', async (req, res) => {
     const datos = await axios.get('https://randomuser.me/api/');
     const userData = datos.data.results[0];
 
-    let id = uuid.v4();
+    let id = uuid.v4().slice(30);
     
     const usuarioRandom = {
         nombre: userData.name.first + " " + userData.name.last,
@@ -31,6 +31,35 @@ app.post('/roommate', async (req, res) => {
 
     res.json(db)
 })
+
+app.post('/gasto', async (req, res) => {
+    let body;
+    req.on('data', (payload) => {
+        body = JSON.parse(payload);
+    });
+    req.on('end', async () => {
+
+      // acá tenemos que crear el gasto
+        let id = uuid.v4().slice(30);
+
+        const gasto = {
+            roommate: body.roommate,
+            descripcion: body.descripcion,
+            monto: body.monto,
+            id: id
+        };
+
+        console.log(gasto)
+
+        let db = await fs.readFile('db.json', 'utf-8');
+        db = JSON.parse(db);
+        db.gastos.push(gasto)
+
+        await fs.writeFile('db.json', JSON.stringify(db), 'utf-8')
+
+        res.send({todo: 'OK'});
+    });
+});
 
 app.get('/roommates', (req, res) => {   
     let db = require('./db.json')
