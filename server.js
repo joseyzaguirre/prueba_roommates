@@ -115,10 +115,6 @@ app.delete('/gasto', async (req, res) => {
     gastos = gastos.filter((gasto) => gasto.id !== req.query.id)
     db.gastos = gastos   
 
-    const roommate = db.roommates.find(r => r.nombre == gastos.roommate);
-    console.log(roommate)
-    const gastosRoommate = db.gastos.filter( g => g.roommate = roommate.nombre).map(g => g.monto).reduce( (x, y) => x + y);
-    roommate.debe = gastosRoommate;
 
     await fs.writeFile('db.json', JSON.stringify(db), 'utf-8')
 
