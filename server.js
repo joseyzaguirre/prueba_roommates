@@ -105,7 +105,7 @@ app.put('/gasto', (req, res) => {
     });
 })
 
-/*
+
 app.delete('/gasto', async (req, res) => {
 
     let db = await fs.readFile('db.json', 'utf-8');
@@ -124,7 +124,7 @@ app.delete('/gasto', async (req, res) => {
 
     res.send({todo: 'OK'});
 })
-*/
+
 
 app.listen(3000, () => {
     console.log('servidor corriendo en puerto 3000')
