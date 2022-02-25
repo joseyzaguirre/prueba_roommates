@@ -39,7 +39,6 @@ app.post('/gasto', async (req, res) => {
     });
     req.on('end', async () => {
 
-      // acá tenemos que crear el gasto
         let id = uuid.v4().slice(30);
 
         const gasto = {
@@ -49,11 +48,15 @@ app.post('/gasto', async (req, res) => {
             id: id
         };
 
-        console.log(gasto)
-
         let db = await fs.readFile('db.json', 'utf-8');
         db = JSON.parse(db);
         db.gastos.push(gasto)
+        
+        db.roommates.map((roommate) => {
+            if (roommate.nombre == gasto.roommate) {
+                roommate.debe += body.monto
+            }
+        })
 
         await fs.writeFile('db.json', JSON.stringify(db), 'utf-8')
 
@@ -72,6 +75,56 @@ app.get('/gastos', (req, res) => {
     let gastos = db.gastos
     res.json({gastos})
 })
+
+app.put('/gasto', (req, res) => {
+    let body;
+    req.on('data', (payload) => {
+        body = JSON.parse(payload);
+    });
+    req.on('end', async () => {
+
+        let db = await fs.readFile('db.json', 'utf-8');
+        db = JSON.parse(db);
+
+        db.gastos.map((gasto) => {
+            if (gasto.id == req.query.id) {
+                gasto.monto = body.monto
+                gasto.descripcion = body.descripcion
+            }
+            
+        })
+        
+        const roommate = db.roommates.find(r => r.nombre == body.roommate);
+        const gastosRoommate = db.gastos.filter( g => g.roommate = roommate.nombre).map(g => g.monto).reduce( (x, y) => x + y);
+        roommate.debe = gastosRoommate;
+
+        
+        await fs.writeFile('db.json', JSON.stringify(db), 'utf-8')
+
+        res.send({todo: 'OK'});
+    });
+})
+
+/*
+app.delete('/gasto', async (req, res) => {
+
+    let db = await fs.readFile('db.json', 'utf-8');
+    db = JSON.parse(db);
+
+    let gastos = db.gastos
+    gastos = gastos.filter((gasto) => gasto.id !== req.query.id)
+    db.gastos = gastos   
+
+    const roommate = db.roommates.find(r => r.nombre == gastos.roommate);
+    console.log(roommate)
+    const gastosRoommate = db.gastos.filter( g => g.roommate = roommate.nombre).map(g => g.monto).reduce( (x, y) => x + y);
+    roommate.debe = gastosRoommate;
+
+    await fs.writeFile('db.json', JSON.stringify(db), 'utf-8')
+
+    res.send({todo: 'OK'});
+})
+*/
 
 app.listen(3000, () => {
     console.log('servidor corriendo en puerto 3000')

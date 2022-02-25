@@ -1,1 +1,4 @@
-{"roommates":[{"nombre":"Elli Kivela","id":"817feb","debe":0,"recibe":0},{"nombre":"Dylano Van Vegten","id":"a38509","debe":0,"recibe":0},{"nombre":"Begüm Koyuncu","id":"3d1232","debe":0,"recibe":0},{"nombre":"Patrizia Roger","id":"67a13b","debe":0,"recibe":0}],"gastos":[{"roommate":"Patrizia Roger","descripcion":"Articulos de limpieza","monto":15000,"id":"75cf14"}]}
+{
+    "roommates":[],
+    "gastos":[]
+}
