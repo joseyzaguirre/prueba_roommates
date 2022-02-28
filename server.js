@@ -94,8 +94,15 @@ app.put('/gasto', (req, res) => {
             
         })
         
-        const roommate = db.roommates.find(r => r.nombre == body.roommate);
-        const gastosRoommate = db.gastos.filter( g => g.roommate = roommate.nombre).map(g => g.monto).reduce( (x, y) => x + y);
+        let roommate = db.roommates.find(r => r.nombre == body.roommate);
+        let montos = db.gastos.map( x => {
+            if (x.roommate == body.roommate) {
+                return x.monto
+            } else {
+                return 0
+            }
+        })
+        let gastosRoommate = montos.reduce((x, y) => x + y)
         roommate.debe = gastosRoommate;
 
         
