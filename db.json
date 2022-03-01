@@ -1,1 +1,4 @@
-{"roommates":[{"nombre":"امیر پارسا","id":"c7d530","debe":0,"recibe":0},{"nombre":"Expedito Fernandes","id":"eda117","debe":15000,"recibe":0},{"nombre":"Leo Lahti","id":"fd4a58","debe":5000,"recibe":0},{"nombre":"Leif Sande","id":"116e7a","debe":20000,"recibe":0}],"gastos":[{"roommate":"Expedito Fernandes","descripcion":"Articulos de limpieza","monto":15000,"id":"7917b3"},{"roommate":"Leo Lahti","descripcion":"Articulos de limpieza","monto":5000,"id":"bfbe97"},{"roommate":"Leif Sande","descripcion":"Articulos de limpieza","monto":20000,"id":"bbb623"}]}
+{
+    "roommates":[],
+    "gastos":[]
+}
